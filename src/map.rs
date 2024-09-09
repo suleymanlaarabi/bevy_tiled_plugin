@@ -21,12 +21,12 @@ pub struct TiledMap {
     pub orientation: String,
     pub renderorder: String,
     pub tiledversion: String,
-    pub tileheight: u32,
-    pub tilewidth: u32,
+    pub tileheight: f32,
+    pub tilewidth: f32,
     #[serde(rename = "type")]
     pub map_type: String,
     pub version: String,
-    pub width: u32,
+    pub width: usize,
     pub layers: Vec<Layer>,
     pub tilesets: Vec<TiledMapSet>,
 }

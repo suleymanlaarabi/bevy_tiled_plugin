@@ -16,7 +16,7 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            TiledPlugin::from_json("assets/map.json", "assets/tiles.json"),
+            TiledPlugin::from_json("assets/map.json", "assets/tiles.json", 2.),
             TiledDebugPlugin,
         ))
         .add_systems(Startup, setup_camera)
