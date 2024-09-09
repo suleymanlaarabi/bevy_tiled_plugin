@@ -34,15 +34,13 @@ pub struct TiledMap {
 #[allow(dead_code)]
 #[derive(Deserialize, Debug)]
 pub struct Layer {
-    pub data: Vec<i32>,
-    pub height: u32,
+    pub data: Option<Vec<i32>>,
     pub id: u32,
     pub name: String,
     pub opacity: f32,
     #[serde(rename = "type")]
     pub tile_type: String,
     pub visible: bool,
-    pub width: u32,
     pub x: f32,
     pub y: f32,
 }

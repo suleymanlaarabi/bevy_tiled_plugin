@@ -27,9 +27,9 @@ impl Plugin for TiledPlugin {
 }
 
 #[derive(Resource)]
-struct TilesImage {
-    atlas: TextureAtlas,
-    texture: Handle<Image>,
+pub struct TilesImage {
+    pub atlas: TextureAtlas,
+    pub texture: Handle<Image>,
 }
 
 fn init_asset(mut commands: Commands, server: Res<AssetServer>, tileset: Res<TileSet>) {
@@ -54,81 +54,88 @@ fn init_asset(mut commands: Commands, server: Res<AssetServer>, tileset: Res<Til
 fn create_tile_bundle(
     tile: usize,
     tiles_image: &Res<TilesImage>,
-    col: u32,
-    row: u32,
+    col: f32,
+    row: f32,
     xoffset: f32,
     yoffset: f32,
 ) -> impl Bundle {
     let mut atlas = tiles_image.atlas.to_owned();
     atlas.index = tile as usize;
-    (
-        SpriteBundle {
-            texture: tiles_image.texture.to_owned(),
-            transform: Transform::from_xyz(col as f32 * xoffset, -(row as f32 * yoffset), 0.0),
+    let sprite_bundle = SpriteBundle {
+        texture: tiles_image.texture.to_owned(),
+        transform: Transform::from_xyz(col, row, 0.0),
+        sprite: Sprite {
+            custom_size: Some(Vec2::new(xoffset, yoffset)),
             ..default()
         },
-        atlas,
-    )
-}
-
-fn spawn_tile(
-    tile: i32,
-    commands: &mut Commands,
-    map: &Res<TiledMap>,
-    tiles_image: &Res<TilesImage>,
-    index: i32,
-) {
-    if tile == 0 {
-        return;
-    }
-
-    let col = index as u32 % map.width;
-    let row = index as u32 / map.width;
-
-    commands.spawn(create_tile_bundle(
-        tile as usize - 1,
-        &tiles_image,
-        col,
-        row,
-        map.tilewidth as f32,
-        map.tileheight as f32,
-    ));
+        ..default()
+    };
+    (sprite_bundle, atlas)
 }
 
 #[derive(Component, Deref, DerefMut)]
 pub struct TiledCollisionSize(Vec2);
 
-fn spawn_collision(commands: &mut Commands, map: &Res<TiledMap>, index: i32) {
-    let col = index as u32 % map.width;
-    let row = index as u32 / map.width;
-    commands.spawn((
-        Transform::from_xyz(
-            col as f32 * map.tilewidth as f32,
-            -(row as f32 * map.tileheight as f32),
-            0.0,
-        ),
-        GlobalTransform::default(),
-        TiledCollisionSize(Vec2::new(map.tilewidth as f32, map.tileheight as f32)),
-    ));
+fn spawn_collision(col: f32, row: f32, xoffset: f32, yoffset: f32) -> impl Bundle {
+    (
+        TiledCollisionSize(Vec2::new(xoffset, yoffset)),
+        Transform::from_xyz(col, row, 2.),
+    )
 }
-fn spawn_world(mut commands: Commands, map: Res<TiledMap>, tiles_image: Res<TilesImage>) {
+
+fn spawner<F, B>(map: &Res<TiledMap>, index: usize, func: F) -> B
+where
+    F: Fn(f32, f32, f32, f32) -> B,
+    B: Bundle,
+{
+    let xoffset = (map.tilewidth as f32) * 2.0;
+    let yoffset = (map.tileheight as f32) * 2.0;
+    let col = (index as u32 % map.width) as f32 * xoffset;
+    let row = -((index as u32 / map.width) as f32 * yoffset);
+    func(col, row, xoffset, yoffset)
+}
+
+fn allow_tile(tile: &dyn Reflect) -> Option<i32> {
+    let tile = *tile.downcast_ref::<i32>().unwrap();
+    if tile == 0 {
+        return None;
+    }
+    return Some(tile - 1);
+}
+
+pub fn spawn_world(mut commands: Commands, map: Res<TiledMap>, tiles_image: Res<TilesImage>) {
     map.layers.iter().for_each(|layer| {
-        let mut index = 0;
         let layer_name = layer.name.as_str();
         match layer_name {
-            "collision" => {
-                layer.data.iter().for_each(|_| {
-                    spawn_collision(&mut commands, &map, index);
-                    index += 1;
-                });
-            }
-            _ => {
-                layer.data.iter().for_each(|tile| {
-                    let tile = *tile.downcast_ref::<i32>().unwrap();
-                    spawn_tile(tile, &mut commands, &map, &tiles_image, index);
-                    index += 1;
-                });
-            }
+            "collision" => match &layer.data {
+                Some(data) => {
+                    data.iter().enumerate().for_each(|(index, tile)| {
+                        if let Some(_) = allow_tile(tile) {
+                            commands.spawn(spawner(&map, index, spawn_collision));
+                        }
+                    });
+                }
+                None => {}
+            },
+            _ => match &layer.data {
+                Some(data) => {
+                    data.iter().enumerate().for_each(|(index, tile)| {
+                        if let Some(tile) = allow_tile(tile) {
+                            commands.spawn(spawner(&map, index, |col, row, xoffset, yoffset| {
+                                create_tile_bundle(
+                                    tile as usize,
+                                    &tiles_image,
+                                    col,
+                                    row,
+                                    xoffset,
+                                    yoffset,
+                                )
+                            }));
+                        }
+                    });
+                }
+                None => {}
+            },
         }
     });
 }
