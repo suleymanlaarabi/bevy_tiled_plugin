@@ -30,5 +30,8 @@ fn insert_res(mut commands: Commands) {
 }
 
 fn setup_camera(mut commands: Commands) {
-    commands.spawn(Camera2dBundle::default());
+    let mut cam = Camera2dBundle::default();
+    cam.transform.translation.y -= 200.;
+    cam.transform.translation.x += 400.;
+    commands.spawn(cam);
 }

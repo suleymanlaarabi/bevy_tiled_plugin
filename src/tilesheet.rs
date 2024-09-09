@@ -3,6 +3,7 @@ use std::fs::read_to_string;
 use bevy::prelude::*;
 use serde::Deserialize;
 
+#[allow(dead_code)]
 #[derive(Resource, Deserialize, Debug)]
 pub struct TileSet {
     pub columns: u32,

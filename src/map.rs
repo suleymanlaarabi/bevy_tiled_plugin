@@ -3,12 +3,14 @@ use std::fs::read_to_string;
 use bevy::prelude::*;
 use serde::Deserialize;
 
+#[allow(dead_code)]
 #[derive(Deserialize, Debug)]
 pub struct TiledMapSet {
     pub firstgid: u32,
     pub source: String,
 }
 
+#[allow(dead_code)]
 #[derive(Resource, Deserialize, Debug)]
 pub struct TiledMap {
     pub compressionlevel: i32,
@@ -28,9 +30,11 @@ pub struct TiledMap {
     pub layers: Vec<Layer>,
     pub tilesets: Vec<TiledMapSet>,
 }
+
+#[allow(dead_code)]
 #[derive(Deserialize, Debug)]
 pub struct Layer {
-    pub data: Vec<u32>,
+    pub data: Vec<i32>,
     pub height: u32,
     pub id: u32,
     pub name: String,
