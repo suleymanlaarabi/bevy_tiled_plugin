@@ -8,17 +8,26 @@
         "."
     ],
     "fileStates": {
+        "/home/suleyman/Principale/project/bevygame/assets/maps/default/Tiles.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "bg.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "collision.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "default.tmx": {
-            "scale": 2.0932,
-            "selectedLayer": 2,
+            "scale": 1.5015,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 110.83508503726353,
-                "y": 10.510223581119817
+                "x": 179.15417915417913,
+                "y": 126.54012654012655
             }
         },
         "hills_tiles.tsx": {
@@ -36,10 +45,12 @@
     "map.tileWidth": 16,
     "openFiles": [
         "default.tmx",
-        "collision.tsx"
+        "collision.tsx",
+        "bg.tsx"
     ],
     "project": "map-project.tiled-project",
     "recentFiles": [
+        "bg.tsx",
         "collision.tsx",
         "default.tmx",
         "hills_tiles.tsx"
@@ -49,5 +60,5 @@
         "height": 16,
         "width": 16
     },
-    "tileset.type": 0
+    "tileset.type": 1
 }

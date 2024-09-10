@@ -1,6 +1,9 @@
-use bevy::{prelude::*, reflect::List};
+use bevy::prelude::*;
 
-use crate::{map::TiledMap, tilesheet::TileSet};
+use crate::{
+    components::{TiledCollisionSize, TiledObject},
+    resource::{TileSet, TiledMap},
+};
 
 pub struct TiledPlugin {
     tiled_map_path: String,
@@ -70,7 +73,6 @@ pub fn spawn_world(
     tiles_image: Res<TilesImage>,
     scale: Res<TiledMapScale>,
     pos: Res<TiledMapPos>,
-    tiled_object_insert_func: Res<TiledObjectInsertFunc>,
 ) {
     map.layers
         .iter()
@@ -96,24 +98,20 @@ pub fn spawn_world(
                     }
                     None => {}
                 },
-                "objects" => match &layer.objects {
+                "objects" => match &layer.data {
                     Some(objects) => {
-                        objects.iter().for_each(|object| {
-                            let bundle = (SpriteBundle {
-                                transform: Transform::from_xyz(
-                                    object.x * 1.9131,
-                                    -object.y * 1.8749,
-                                    10.,
-                                ),
-                                sprite: Sprite {
-                                    color: Color::srgb(255., 0., 0.),
-                                    custom_size: Some(Vec2::new(10., 10.)),
-                                    ..default()
-                                },
-                                ..default()
-                            },);
-                            let entity = commands.spawn(bundle).id();
-                            (tiled_object_insert_func.0)(object.id, entity, &mut commands);
+                        objects.iter().enumerate().for_each(|(index, object)| {
+                            if let Some(object) = allow_tile(object) {
+                                commands.spawn(spawner(
+                                    &map,
+                                    pos.0,
+                                    scale.0,
+                                    index,
+                                    |col, row, _, _| {
+                                        spawn_tiled_object(col, row, layer_index, object as u32)
+                                    },
+                                ));
+                            }
                         });
                     }
                     None => {}
@@ -196,9 +194,6 @@ fn create_tile_bundle(
     (sprite_bundle, atlas)
 }
 
-#[derive(Component, Deref, DerefMut)]
-pub struct TiledCollisionSize(Vec2);
-
 fn spawn_collision(
     col: f32,
     row: f32,
@@ -209,6 +204,13 @@ fn spawn_collision(
     (
         TiledCollisionSize(Vec2::new(xoffset, yoffset)),
         TransformBundle::from_transform(Transform::from_xyz(col, row, layer_index as f32)),
+    )
+}
+
+fn spawn_tiled_object(col: f32, row: f32, layer_index: usize, id: u32) -> impl Bundle {
+    (
+        TransformBundle::from_transform(Transform::from_xyz(col, row, layer_index as f32)),
+        TiledObject::new(Vec2::new(col, row), id),
     )
 }
 

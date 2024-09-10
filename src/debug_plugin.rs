@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::default_plugin::TiledCollisionSize;
+use crate::components::TiledCollisionSize;
 
 pub struct TiledDebugPlugin;
 

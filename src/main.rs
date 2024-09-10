@@ -1,5 +1,3 @@
-use std::any::Any;
-
 use bevy::{
     app::{App, Startup},
     prelude::*,
@@ -9,10 +7,12 @@ use bevy::{
 use debug_plugin::TiledDebugPlugin;
 use default_plugin::TiledPlugin;
 
+mod components;
 mod debug_plugin;
 mod default_plugin;
 mod map;
-mod tilesheet;
+mod resource;
+mod world;
 
 fn main() {
     App::new()
