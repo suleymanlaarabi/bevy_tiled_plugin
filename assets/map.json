@@ -97,20 +97,20 @@
         }, 
         {
          "draworder":"topdown",
-         "id":9,
+         "id":12,
          "name":"objects",
          "objects":[
                 {
                  "height":0,
-                 "id":15,
+                 "id":16,
                  "name":"",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":106.521269880396,
-                 "y":-2.94359802673056
+                 "x":115.420445161489,
+                 "y":91.5476871256279
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -118,8 +118,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":10,
- "nextobjectid":16,
+ "nextlayerid":13,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.11.0",
@@ -132,6 +132,10 @@
         {
          "firstgid":78,
          "source":"collision.tsx"
+        }, 
+        {
+         "firstgid":79,
+         "source":"..\/..\/bevygame\/assets\/maps\/default\/Tiles.tsx"
         }],
  "tilewidth":16,
  "type":"map",

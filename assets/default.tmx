@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="16">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="17">
  <editorsettings>
   <export target="map.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="hills_tiles.tsx"/>
  <tileset firstgid="78" source="collision.tsx"/>
+ <tileset firstgid="79" source="../../bevygame/assets/maps/default/Tiles.tsx"/>
  <layer id="2" name="background_fixe" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -77,4 +78,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="12" name="objects">
+  <object id="16" x="115.42" y="91.5477">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

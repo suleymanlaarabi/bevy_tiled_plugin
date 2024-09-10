@@ -11,6 +11,22 @@ pub struct TiledMapSet {
 }
 
 #[allow(dead_code)]
+#[derive(Deserialize, Debug)]
+pub struct TiledObject {
+    pub height: u32,
+    pub id: u32,
+    pub name: String,
+    pub point: bool,
+    pub rotation: f32,
+    #[serde(rename = "type")]
+    pub object_type: String,
+    pub visible: bool,
+    pub width: u32,
+    pub x: f32,
+    pub y: f32,
+}
+
+#[allow(dead_code)]
 #[derive(Resource, Deserialize, Debug)]
 pub struct TiledMap {
     pub compressionlevel: i32,
@@ -35,6 +51,7 @@ pub struct TiledMap {
 #[derive(Deserialize, Debug)]
 pub struct Layer {
     pub data: Option<Vec<i32>>,
+    pub objects: Option<Vec<TiledObject>>,
     pub id: u32,
     pub name: String,
     pub opacity: f32,
@@ -47,6 +64,7 @@ pub struct Layer {
 
 impl TiledMap {
     pub fn from_json(path: &str) -> TiledMap {
+        println!("path: {}", path);
         serde_json::from_str(&read_to_string(path).expect("File not found"))
             .expect("json parse error")
     }

@@ -1003,6 +1003,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_tiled_plugin"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "bevy_time"
 version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1128,15 +1137,6 @@ dependencies = [
  "wasm-bindgen",
  "web-sys",
  "winit",
-]
-
-[[package]]
-name = "bevygame"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "serde",
- "serde_json",
 ]
 
 [[package]]

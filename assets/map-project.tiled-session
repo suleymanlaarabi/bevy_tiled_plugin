@@ -3,8 +3,9 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "default.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "collision.tsx": {
@@ -12,9 +13,17 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "default.tmx": {
+            "scale": 2.0932,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 110.83508503726353,
+                "y": 10.510223581119817
+            }
+        },
         "hills_tiles.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1,
+            "scaleInDock": 1.7799,
             "scaleInEditor": 1
         }
     },
@@ -26,11 +35,14 @@
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "openFiles": [
+        "default.tmx",
+        "collision.tsx"
     ],
     "project": "map-project.tiled-project",
     "recentFiles": [
-        "hills_tiles.tsx",
-        "collision.tsx"
+        "collision.tsx",
+        "default.tmx",
+        "hills_tiles.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
